@@ -1,28 +1,30 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  - name: check-bats-version
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
-  - name: Docker Login
-  # You may pin to the exact commit or the version.
-  # uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
-    uses: docker/login-action@v2.0.0
-    with:
-      # Server address of Docker registry. If not set then will default to Docker Hub
-      registry: meraki2010/samplenode
-      # Username used to log against the Docker registry
-      username: meraki2010
-      # Password or personal access token used to log against the Docker registry
-      password: meraki2010
-      # Specifies whether the given registry is ECR (auto, true or false)
-      ecr: # optional, default is auto
-      # Log out from the Docker registry at the end of a job
-      logout: # optional, default is true
+  build:
+      name: Deploy
+      runs-on: ubuntu-latest
+      environment: dev
+      steps:
+        - name: check-bats-version
+          uses: actions/setup-node@v3
+          with:
+            node-version: '14'
+          run: | 
+            npm install -g bats
+        - name: Docker Login
+        # You may pin to the exact commit or the version.
+        # uses: docker/login-action@49ed152c8eca782a232dede0303416e8f356c37b
+          uses: docker/login-action@v2.0.0
+          with:
+            # Server address of Docker registry. If not set then will default to Docker Hub
+            registry: meraki2010/samplenode
+            # Username used to log against the Docker registry
+            username: meraki2010
+            # Password or personal access token used to log against the Docker registry
+            password: meraki2010
+            # Specifies whether the given registry is ECR (auto, true or false)
+            ecr: # optional, default is auto
+            # Log out from the Docker registry at the end of a job
+            logout: # optional, default is true
 
